@@ -6,8 +6,8 @@ app = Flask(__name__)
 def index():
     ua = request.headers.get('User-Agent', '')
     print('UA: ', ua)
-    #if "ChatGPT" in ua:
-    #    return "Hello, ChatGPT!"
+    if "ChatGPT" in ua:
+        return "Hello, ChatGPT!"
     return "Hello, Scanner!"
 
 if __name__ == '__main__':
