@@ -1,18 +1,56 @@
-from flask import Flask, request, render_template, jsonify
+import ipaddress, requests, json
+from flask import Flask, request, abort
 
 app = Flask(__name__)
 
+def load_aws_all() -> list[ipaddress.IPv4Network]:
+    url  = "https://ip-ranges.amazonaws.com/ip-ranges.json"
+    data = requests.get(url, timeout=5).json()
+    return [ipaddress.ip_network(p["ip_prefix"])
+            for p in data["prefixes"] if "ip_prefix" in p]
+
+def load_google_all() -> list[ipaddress.IPv4Network]:
+    nets = []
+    for url in (
+        "https://www.gstatic.com/ipranges/cloud.json",
+        "https://www.gstatic.com/ipranges/goog.json"
+    ):
+        data = requests.get(url, timeout=5).json()
+        nets += [ipaddress.ip_network(p["ipv4Prefix"])
+                 for p in data["prefixes"] if "ipv4Prefix" in p]
+    return nets
+
+BLOCK_NETS: list[ipaddress.IPv4Network] = (
+    load_aws_all() +
+    load_google_all()
+)
+
+@app.before_request
+def block_netname_ranges():
+    ua = request.headers.get('User-Agent', '')
+    if "ChatGPT" in ua:
+        abort(404)
+    if "virustotalcloud" in ua:
+        abort(404)
+    
+    ip_str = (request.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+              or request.remote_addr)
+    try:
+        ip_obj = ipaddress.ip_address(ip_str)
+    except ValueError:
+        abort(404)
+
+    if any(ip_obj in net for net in BLOCK_NETS):
+        abort(404)
+
+
+        
 METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE']
 
 @app.route('/', defaults={'path': ''}, methods = METHODS)
 @app.route('/<path:path>', methods=METHODS)
 def index(path):
     print('headers', request.headers)
-    ua = request.headers.get('User-Agent', '')
-    if "ChatGPT" in ua:
-        return "Not Found", 404
-    if "virustotalcloud" in ua:
-        return "Not Found", 404
     return f'''
     <h1>Path: /{path}</h1>
     <h2>Method: {request.method}</h2>
