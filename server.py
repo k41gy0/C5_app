@@ -2,7 +2,7 @@ import ipaddress, requests, json
 from flask import Flask, request, abort
 
 app = Flask(__name__)
-
+"""
 def load_aws_all() -> list[ipaddress.IPv4Network]:
     url  = "https://ip-ranges.amazonaws.com/ip-ranges.json"
     data = requests.get(url, timeout=5).json()
@@ -25,6 +25,10 @@ BLOCK_NETS: list[ipaddress.IPv4Network] = (
     +load_google_all()
     +[ipaddress.ip_network("207.241.224.0/20")]
 )
+"""
+BLOCK_NETS = [
+    ipaddress.ip_network("207.241.224.0/20")
+]
 
 @app.before_request
 def block_netname_ranges():
