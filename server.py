@@ -21,8 +21,9 @@ def load_google_all() -> list[ipaddress.IPv4Network]:
     return nets
 
 BLOCK_NETS: list[ipaddress.IPv4Network] = (
-    load_aws_all() +
-    load_google_all()
+    load_aws_all()
+    +load_google_all()
+    +[ipaddress.ip_network("207.241.224.0/20")]
 )
 
 @app.before_request
