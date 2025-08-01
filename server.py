@@ -51,6 +51,9 @@ METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE'
 @app.route('/<path:path>', methods=METHODS)
 def index(path):
     print('headers', request.headers)
+    abort(404)
+    
+    '''
     return f'''
     <h1>Path: /{path}</h1>
     <h2>Method: {request.method}</h2>
@@ -60,6 +63,7 @@ def index(path):
     </ul>
     <h2>Request body</h2>
     <p>{request.get_data().decode() if request.get_data() else 'None.'}</p>
+    '''
     '''
 
 if __name__ == '__main__':
