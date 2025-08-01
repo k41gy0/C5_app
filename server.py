@@ -10,9 +10,9 @@ def index(path):
     ua = request.headers.get('User-Agent', '')
     print('UA: ', ua)
     if "ChatGPT" in ua:
-        return "Access Denied", 403
+        return "Not Found", 404
     if "virustotalcloud" in ua:
-        return "Access Denied", 403
+        return "Not Found", 404
     return f'''
     <h1>Path: /{path}</h1>
     <h2>Method: {request.method}</h2>
