@@ -7,8 +7,8 @@ METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE'
 @app.route('/', defaults={'path': ''}, methods = METHODS)
 @app.route('/<path:path>', methods=METHODS)
 def index(path):
+    print('headers', request.headers)
     ua = request.headers.get('User-Agent', '')
-    print('UA: ', ua)
     if "ChatGPT" in ua:
         return "Not Found", 404
     if "virustotalcloud" in ua:
