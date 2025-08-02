@@ -4,8 +4,8 @@ from flask import Flask, request, abort
 app = Flask(__name__)
 
 BLOCK_NETS: list[ipaddress.IPv4Network] = [
-    ipaddress.ip_network("207.241.224.0/20"),
-    ipaddress.ip_network("5.188.6.199/32"),
+    ipaddress.ip_network("207.241.224.0/20"),#webarchive
+    ipaddress.ip_network("5.188.6.199/32"),#archiveis
     ipaddress.ip_network("5.252.55.8/32"),
     ipaddress.ip_network("23.137.253.37/32"),
     ipaddress.ip_network("23.184.48.154/32"),
@@ -50,6 +50,27 @@ BLOCK_NETS: list[ipaddress.IPv4Network] = [
     ipaddress.ip_network("195.160.220.104/32"),
     ipaddress.ip_network("198.98.54.183/32"),
     ipaddress.ip_network("198.98.51.189/32"),
+    ipaddress.ip_network("23.27.31.37/32"),#urlscan
+    ipaddress.ip_network("44.201.125.102/32"),
+    ipaddress.ip_network("51.89.204.82/32"),
+    ipaddress.ip_network("146.70.201.239/32"),
+    ipaddress.ip_network("91.84.87.137/32"),
+    ipaddress.ip_network("93.71.103.137/32"),
+    ipaddress.ip_network("94.102.49.123/32"),
+    ipaddress.ip_network("103.106.228.43/32"),
+    ipaddress.ip_network("104.220.84.5/32"),
+    ipaddress.ip_network("104.232.195.2/32"),
+    ipaddress.ip_network("104.244.209.70/32"),
+    ipaddress.ip_network("129.212.200.6/32"),
+    ipaddress.ip_network("135.129.160.34/32"),
+    ipaddress.ip_network("136.144.168.61/32"),
+    ipaddress.ip_network("146.190.185.95/32"),
+    ipaddress.ip_network("149.22.91.136/32"),
+    ipaddress.ip_network("185.152.67.235/32"),
+    ipaddress.ip_network("185.227.68.146/32"),
+    ipaddress.ip_network("188.245.193.111/32"),
+    ipaddress.ip_network("209.99.164.137/32"),
+
 ]
 
 @app.before_request
