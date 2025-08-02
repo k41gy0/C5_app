@@ -52,8 +52,9 @@ def block_netname_ranges():
         
 METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE']
 
-@app.route('/', defaults={'path': ''}, methods = METHODS)
-@app.route('/<path:path>', methods=METHODS)
+#@app.route('/', defaults={'path': ''}, methods = METHODS)
+#@app.route('/<path:path>', methods=METHODS)
+@app.route('/about', methods=METHODS)
 def index(path):
     print('headers', request.headers)
 
