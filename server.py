@@ -2,32 +2,54 @@ import ipaddress, requests, json
 from flask import Flask, request, abort
 
 app = Flask(__name__)
-"""
-def load_aws_all() -> list[ipaddress.IPv4Network]:
-    url  = "https://ip-ranges.amazonaws.com/ip-ranges.json"
-    data = requests.get(url, timeout=5).json()
-    return [ipaddress.ip_network(p["ip_prefix"])
-            for p in data["prefixes"] if "ip_prefix" in p]
 
-def load_google_all() -> list[ipaddress.IPv4Network]:
-    nets = []
-    for url in (
-        "https://www.gstatic.com/ipranges/cloud.json",
-        "https://www.gstatic.com/ipranges/goog.json"
-    ):
-        data = requests.get(url, timeout=5).json()
-        nets += [ipaddress.ip_network(p["ipv4Prefix"])
-                 for p in data["prefixes"] if "ipv4Prefix" in p]
-    return nets
-
-BLOCK_NETS: list[ipaddress.IPv4Network] = (
-    load_aws_all()
-    +load_google_all()
-    +[ipaddress.ip_network("207.241.224.0/20")]
-)
-"""
-BLOCK_NETS = [
-    ipaddress.ip_network("207.241.224.0/20")
+BLOCK_NETS: list[ipaddress.IPv4Network] = [
+    ipaddress.ip_network("207.241.224.0/20"),
+    ipaddress.ip_network("5.188.6.199/32"),
+    ipaddress.ip_network("5.252.55.8/32"),
+    ipaddress.ip_network("23.137.253.37/32"),
+    ipaddress.ip_network("23.184.48.154/32"),
+    ipaddress.ip_network("38.45.65.162/32"),
+    ipaddress.ip_network("45.8.124.7/32"),
+    ipaddress.ip_network("45.62.163.122/32"),
+    ipaddress.ip_network("45.87.43.235/32"),
+    ipaddress.ip_network("45.88.200.214/32"),
+    ipaddress.ip_network("45.135.229.105/32"),
+    ipaddress.ip_network("46.250.252.66/32"),
+    ipaddress.ip_network("51.79.250.183/32"),
+    ipaddress.ip_network("51.195.151.150/32"),
+    ipaddress.ip_network("57.129.134.86/32"),
+    ipaddress.ip_network("65.108.243.152/32"),
+    ipaddress.ip_network("77.111.247.45/32"),
+    ipaddress.ip_network("77.111.247.72/32"),
+    ipaddress.ip_network("80.78.28.10/32"),
+    ipaddress.ip_network("88.218.206.233/32"),
+    ipaddress.ip_network("92.38.132.88/32"),
+    ipaddress.ip_network("94.154.172.214/32"),
+    ipaddress.ip_network("102.130.116.13/32"),
+    ipaddress.ip_network("103.70.115.11/32"),
+    ipaddress.ip_network("104.36.80.106/32"),
+    ipaddress.ip_network("104.143.10.202/32"),
+    ipaddress.ip_network("130.0.232.208/32"),
+    ipaddress.ip_network("139.99.171.251/32"),
+    ipaddress.ip_network("146.59.231.4/32"),
+    ipaddress.ip_network("151.80.18.153/32"),
+    ipaddress.ip_network("160.19.78.209/32"),
+    ipaddress.ip_network("164.215.103.238/32"),
+    ipaddress.ip_network("165.140.202.54/32"),
+    ipaddress.ip_network("165.140.203.149/32"),
+    ipaddress.ip_network("171.25.193.39/32"),
+    ipaddress.ip_network("171.25.193.40/32"),
+    ipaddress.ip_network("185.101.35.175/32"),
+    ipaddress.ip_network("185.125.168.154/32"),
+    ipaddress.ip_network("185.181.62.113/32"),
+    ipaddress.ip_network("185.195.236.20/32"),
+    ipaddress.ip_network("185.195.236.97/32"),
+    ipaddress.ip_network("194.15.36.46/32"),
+    ipaddress.ip_network("194.62.248.90/32"),
+    ipaddress.ip_network("195.160.220.104/32"),
+    ipaddress.ip_network("198.98.54.183/32"),
+    ipaddress.ip_network("198.98.51.189/32"),
 ]
 
 @app.before_request
@@ -53,8 +75,7 @@ def block_netname_ranges():
 METHODS = ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'CONNECT', 'OPTIONS', 'TRACE']
 
 @app.route('/', defaults={'path': ''}, methods = METHODS)
-#@app.route('/<path:path>', methods=METHODS)
-@app.route('/about', methods=METHODS)
+@app.route('/<path:path>', methods=METHODS)
 def index(path):
     print('headers', request.headers)
 
